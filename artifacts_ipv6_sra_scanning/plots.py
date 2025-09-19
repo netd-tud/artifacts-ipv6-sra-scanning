@@ -4,7 +4,12 @@ from loguru import logger
 from tqdm import tqdm
 import typer
 
-from artifacts_ipv6_sra_scanning.config import FIGURES_DIR, PROCESSED_DATA_DIR
+from ipv6_spoki_artifacts.config import FIGURES_DIR, PROCESSED_DATA_DIR
+from ipv6_spoki_artifacts.plot_functions import *
+
+import pkgutil
+import importlib
+import ipv6_spoki_artifacts.plot_functions as pf
 
 app = typer.Typer()
 
@@ -16,13 +21,19 @@ def main(
     output_path: Path = FIGURES_DIR / "plot.png",
     # -----------------------------------------
 ):
-    # ---- REPLACE THIS WITH YOUR OWN CODE ----
-    logger.info("Generating plot from data...")
-    for i in tqdm(range(10), total=10):
-        if i == 5:
-            logger.info("Something happened for iteration 5.")
+    logger.info("Generating plots from data...")
+    # Plot code is saved under plot_functions
+    # each figure gets its own file with the function render()
+    # all files are imported and the function render() is called
+    package = pf
+    for _, module_name, _ in pkgutil.iter_modules(package.__path__):
+        module = importlib.import_module(f"{package.__name__}.{module_name}")
+        
+        # run each module if it has a run() function
+        if hasattr(module, "render"):
+            logger.info(f"Rendering {module_name}")
+            module.render(module_name)
     logger.success("Plot generation complete.")
-    # -----------------------------------------
 
 
 if __name__ == "__main__":

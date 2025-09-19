@@ -2,7 +2,7 @@
 # GLOBALS                                                                       #
 #################################################################################
 
-PROJECT_NAME = ipv6-spoki-artifacts
+PROJECT_NAME = artifacts-ipv6-sra-scanning
 PYTHON_VERSION = 3.12
 PYTHON_INTERPRETER = python3
 SHELL := /bin/bash
@@ -61,11 +61,11 @@ tables: $(notebooks_html)
 ## Make dataset
 .PHONY: data
 data: requirements
-	$(PYTHON_INTERPRETER) ipv6_spoki_artifacts/dataset.py
+	$(PYTHON_INTERPRETER) artifacts_ipv6_sra_scanning/dataset.py
 
 .PHONY: plots
 plots: requirements
-	$(PYTHON_INTERPRETER) ipv6_spoki_artifacts/plots.py
+	$(PYTHON_INTERPRETER) artifacts_ipv6_sra_scanning/plots.py
 
 #################################################################################
 # Self Documenting Commands                                                     #
