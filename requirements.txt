@@ -1,0 +1,24 @@
+-e .
+typer
+loguru
+tqdm
+pandas
+polars
+matplotlib
+seaborn
+dotenv
+pyarrow
+upsetplot
+nbconvert
+nbformat
+ipykernel
+jupyter-client
+traitlets
+numpy
+pathlib
+typing
+maxminddb
+geoip2
+pyasn
+geopandas
+ipaddress
