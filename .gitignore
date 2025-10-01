@@ -3,3 +3,7 @@
 **/reports/figures/*.pdf
 **/reports/figures/*.png
 **/*.parquet
+**/.ipynb_checkpoints
+**/interim/*
+**/raw/*
+**/processed/*

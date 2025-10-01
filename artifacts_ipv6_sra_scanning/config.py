@@ -8,6 +8,17 @@ load_dotenv()
 
 # Paths
 PROJ_ROOT = Path(__file__).resolve().parents[1]
+import ndpi
+ndpi.init(PROJ_ROOT,'short')
+import ndpi.visualization.helper as vh
+import ndpi.data.filter as filter
+import ndpi.convenience as cv
+import ndpi.constants as const
+
+import matplotlib.pyplot as plt
+import polars as pl
+import pandas as pd
+
 logger.info(f"PROJ_ROOT path is: {PROJ_ROOT}")
 
 DATA_DIR = PROJ_ROOT / "data"

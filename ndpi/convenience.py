@@ -4,7 +4,8 @@ from pathlib import Path
 import polars as pl
 import os
 import shutil
-
+from tqdm import tqdm
+import pickle
 
 def load_data(
     name: Union[str, list[str]],
@@ -39,6 +40,63 @@ def load_data(
 
     return pl.concat([pl.scan_parquet(file, **kwargs) for file in existing])
 
+def load_or_process_pickle(pickle_path, process_func, *args, **kwargs):
+    """
+    Load a DataFrame from a pickle file if it exists,
+    otherwise run the processing function, save the result, and return it.
+
+    Args:
+        pickle_path: Path to the pickle file.
+        process_func: Function to generate the DataFrame.
+        *args, **kwargs: Arguments passed to process_func.
+
+    Returns:
+        DataFrame: The loaded or processed DataFrame.
+    """
+    if os.path.exists(pickle_path):
+        with open(pickle_path, 'rb') as f:
+            return pickle.load(f)
+    else:
+        result = process_func(*args, **kwargs)
+        with open(pickle_path, 'wb') as f:
+            pickle.dump(result, f)
+        return result
+        
+def join_sra_scans(files):
+    df = pl.DataFrame()
+    for i in tqdm(range(len(files))):
+        if df.is_empty():
+            df = pl.read_parquet(files[i],columns=['saddr','classification','numsubnets'])
+            df = df.group_by("saddr").agg(classifications = pl.col("classification").unique(),
+                                         sumreplies = pl.col('numsubnets').sum())
+            df = df.with_columns(
+                pl.when((pl.col("classifications").list.contains("echoreply")) & 
+                        (pl.col("classifications").list.len() == 1))
+                .then(pl.lit("echoreply"))
+                .when((pl.col("classifications").list.contains("echoreply")) & 
+                      (pl.col("classifications").list.len() > 1))
+                .then(pl.lit("ambiguous"))
+                .otherwise(pl.lit("other"))
+                .alias("code")
+            ).drop('classifications')
+            df = df.with_columns(inscan=True)
+        else:
+            tmp = pl.read_parquet(files[i],columns=['saddr','classification','numsubnets'])
+            tmp = tmp.group_by("saddr").agg(classifications = pl.col("classification").unique(),
+                                           sumreplies = pl.col('numsubnets').sum())
+            tmp = tmp.with_columns(
+                pl.when((pl.col("classifications").list.contains("echoreply")) & 
+                        (pl.col("classifications").list.len() == 1))
+                .then(pl.lit("echoreply"))
+                .when((pl.col("classifications").list.contains("echoreply")) & 
+                      (pl.col("classifications").list.len() > 1))
+                .then(pl.lit("ambiguous"))
+                .otherwise(pl.lit("other"))
+                .alias("code")
+            ).drop('classifications')
+            tmp = tmp.with_columns(inscan=True)
+            df = df.join(tmp,on=['saddr'],how='full', suffix=f'_s{i}',coalesce=True)
+    return df
 
 def sink_parquet(df: pl.LazyFrame, path: Union[str, Path], **kwargs):
     """A wrapper for `pl.sink_parquet` that writes to `f"{path}.temp"` and then moves the file to `path`. This allows working with the existing dataset until the file is replaced
@@ -80,3 +138,14 @@ def write_parquet(df: pl.DataFrame, path: Union[str, Path], **kwargs):
     temp_path = f"{path}.temp"
     df.write_parquet(file=temp_path, **kwargs)
     shutil.move(temp_path, path)
+
+def concat_frames(dfs: list[pl.LazyFrame], labels: list[str], column: str,columns: list[str]) -> pl.LazyFrame:
+    if len(dfs) != len(labels):
+        raise ValueError("The number of DataFrames must match the number of labels.")
+
+    enriched_dfs = [
+        df.select(columns).with_columns(pl.lit(label).alias(column))
+        for df, label in zip(dfs, labels)
+    ]
+
+    return pl.concat(enriched_dfs, how="vertical")

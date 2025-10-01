@@ -4,12 +4,12 @@ from loguru import logger
 from tqdm import tqdm
 import typer
 
-from ipv6_spoki_artifacts.config import FIGURES_DIR, PROCESSED_DATA_DIR
-from ipv6_spoki_artifacts.plot_functions import *
+from artifacts_ipv6_sra_scanning.config import FIGURES_DIR, PROCESSED_DATA_DIR
+from artifacts_ipv6_sra_scanning.plot_functions import *
 
 import pkgutil
 import importlib
-import ipv6_spoki_artifacts.plot_functions as pf
+import artifacts_ipv6_sra_scanning.plot_functions as pf
 
 app = typer.Typer()
 
