@@ -1,4 +1,6 @@
 **/__pycache__
+**/data/*.zst
+**/data/*p0
 **/.venv
 **/reports/figures/*.pdf
 **/reports/figures/*.png
