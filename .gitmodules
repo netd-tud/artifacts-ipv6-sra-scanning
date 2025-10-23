@@ -1,3 +1,6 @@
 [submodule "tools/go_ipv6_address_generator"]
 	path = tools/go_ipv6_address_generator
 	url = https://github.com/mkoch-tud/go_ipv6_address_generator.git
+[submodule "tools/zmap"]
+	path = tools/zmap
+	url = https://github.com/mkoch-tud/zmap.git
