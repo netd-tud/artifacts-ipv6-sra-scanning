@@ -1,0 +1,33 @@
+# Scan Config that might change for different scans
+probe-module icmp6_router_discovery 
+#probe-module icmp6_echo_time_novalidation 
+# rate in packets per second
+rate 200000
+output-fields "initial-ip,saddr,ttl,sent_timestamp_ts,sent_timestamp_us,timestamp_ts,timestamp_us,classification,type,code,icmp-id"
+# all-replies parameter can be used to also log replies that come from the same source initially requested
+#all-replies
+output-filter "success=1"
+# target file can be a filename or "-" for stdin
+ipv6-target-file "-"
+
+# Values that probably won't change on the same machine but need to be updated when initializing a new scan machine
+blocklist-file /home/mkoch/zmap/blocklist.conf
+gateway-mac 78:4f:9b:ab:78:29
+# interface for sending
+interface "bcixtransit"
+# interface for receiving packets (needed for asynchronous routing)
+rcv-iface "scanif"
+ipv6-source-ip "2001:67c:254:b0b0::abba"
+
+# Static values that most likely won't change anyway
+probe-ttl 60
+# static seed value for random address space traversal (not really needed for IPv6)
+seed 13371337
+# output module
+output-module csv
+# Set verbosity to 0 -- only syslogs are active 
+verbosity 0
+# Do not print status updates
+quiet
+# Write them into log file
+status-updates-file ./monitoring/scan-status.csv

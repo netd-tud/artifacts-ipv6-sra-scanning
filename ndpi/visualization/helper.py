@@ -43,7 +43,7 @@ def save_plot(
     if autoclose:
         plt.close()
 
-def plot_upsetplot(df,groupbycol,setcol,tags,fig_name,label,colors = ["#375E97", "#FB6542", "#c1195c", "#37975e",'#cc9900'],title='Upsetplot',bbox=(0.5,1),minsubsetsize=0.01,pickle_file=None,fontsize=8,figsize=(8*0.7,3*0.7)):
+def plot_upsetplot(df,groupbycol,setcol,tags,fig_name,label,colors = ["#375E97", "#FB6542", "#c1195c", "#37975e",'#cc9900'],title='Upsetplot',bbox=(0.5,1),minsubsetsize=0.01,pickle_file=None,fontsize=8,figsize=(8*0.7,3*0.7),ncols=1,legend=True):
     import upsetplot
     import itertools
     from matplotlib.ticker import FuncFormatter
@@ -127,18 +127,18 @@ def plot_upsetplot(df,groupbycol,setcol,tags,fig_name,label,colors = ["#375E97",
         if pickle_file:
             combined_df.to_pickle(pickle_file)
             pbar.set_description('Creating pickle file for later runs')
-    if minsubsetsize>0:
-        total = combined_df.sum()
-        keep = []
-        for index in combined_df.index:
-            if sum(index)==1:
-                keep.append(index)
-                continue
-            if sum(index)>1:
-                v = combined_df[combined_df.index==index].array[0]
-                if v/total >= minsubsetsize:
-                    keep.append(index)
-        combined_df = combined_df[combined_df.index.isin(keep)]
+    #if minsubsetsize>0:
+    #    total = combined_df.sum()
+    #    keep = []
+    #    for index in combined_df.index:
+    #        if sum(index)==1:
+    #            keep.append(index)
+    #            continue
+    #        if sum(index)>1:
+    #            v = combined_df[combined_df.index==index].array[0]
+    #            if v/total >= minsubsetsize:
+    #                keep.append(index)
+    #    combined_df = combined_df[combined_df.index.isin(keep)]
     pbar.set_description('Creating UpSetPlot')
     fig,ax = fig_ax(figsize=figsize)
     ax.axis('off')
@@ -146,7 +146,11 @@ def plot_upsetplot(df,groupbycol,setcol,tags,fig_name,label,colors = ["#375E97",
         #upsetplot.from_indicators(indicators=pd.isna,data=combined_df),
         combined_df,
         sort_categories_by = '-input',
-        sort_by = 'input',
+        #sort_by = 'input',
+        sort_by = 'degree',
+        min_subset_size=minsubsetsize,
+        #min_degree=1,
+        #max_subset_rank=12,
         # set_counts_log
         # orientation="vertical",
         # show_counts=True,
@@ -161,7 +165,7 @@ def plot_upsetplot(df,groupbycol,setcol,tags,fig_name,label,colors = ["#375E97",
             upset.style_subsets(
                 present=tag,
                 facecolor=colors[0],
-                label="Overlap",
+                label="Overlap" if legend else None,
                 linewidth=lw,
             )
             
@@ -170,7 +174,7 @@ def plot_upsetplot(df,groupbycol,setcol,tags,fig_name,label,colors = ["#375E97",
             present=tag,
             absent=[t for t in tags if t not in [tag]],
             facecolor=colors[i],
-            label=tag,
+            label=tag if legend else None,
             linewidth=lw,
         )
     pbar.update(1)
@@ -205,7 +209,7 @@ def plot_upsetplot(df,groupbycol,setcol,tags,fig_name,label,colors = ["#375E97",
     
     # Increase size of the labels in "matrix" (middle plot)
     plot_result["matrix"].tick_params(axis="y", which="major", labelsize=params_size)
-
+                
     pbar.update(1)
     pbar.set_description('Creating UpSetPlot legend')
     patches = []
@@ -216,9 +220,9 @@ def plot_upsetplot(df,groupbycol,setcol,tags,fig_name,label,colors = ["#375E97",
     for ax in plt.gcf().axes:
         for text in ax.texts:
             if '%' in text.get_text():  # Identify percentage texts
-                text.set_bbox(dict(facecolor='white', pad=-2,edgecolor='white',alpha=0.75))
-    
-    plt.legend(handles=patches, bbox_to_anchor=bbox,framealpha=1)
+                text.set_bbox(dict(facecolor='white', pad=0,edgecolor='white',alpha=1))
+    if legend:
+        plt.legend(handles=patches, bbox_to_anchor=bbox,framealpha=1,ncols=ncols)
 
     plt.title(title,fontsize=12)
     # save and show
