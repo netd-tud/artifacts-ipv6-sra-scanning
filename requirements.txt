@@ -22,3 +22,5 @@ geoip2
 pyasn
 geopandas
 ipaddress
+pycountry_convert
+glob

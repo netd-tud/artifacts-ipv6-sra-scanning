@@ -3,12 +3,11 @@ import seaborn as sns
 import os
 
 def load_and_prepare_df():
-    basedir = '/home/service/ipv6-measurements-mkoch/backup_2024/sra-analysis'
-    file_list = [f'{basedir}/data/scans/zmap_icmp_bgp_netaddr_1728140292_p0',
-         f'{basedir}/data/bgp48_sra_checks/zmap_icmp_bgp_48_sra_1728075185_p0',
-        f'{basedir}/data/bgp48_64s_sra_checks/zmap_icmp_bgp_48only_64s_sra_1730213648_processed',
-        f'{basedir}/data/scans/zmap_icmp_route6_64_1728147418_p0',
-        f'{basedir}/data/tuminput_sra_checks/zmap_icmp_tum_64_sra_1731694726_p0',
+    file_list = [f'{PROCESSED_DATA_DIR}/scans/zmap_icmp_bgp_netaddr_1728140292_p0',
+         f'{PROCESSED_DATA_DIR}/bgp48_sra_checks/zmap_icmp_bgp_48_sra_1728075185_p0',
+        f'{PROCESSED_DATA_DIR}/bgp48_64s_sra_checks/zmap_icmp_bgp_48only_64s_sra_1730213648_processed',
+        f'{PROCESSED_DATA_DIR}/scans/zmap_icmp_route6_64_1728147418_p0',
+        f'{PROCESSED_DATA_DIR}/tuminput_sra_checks/zmap_icmp_tum_64_sra_1731694726_p0',
         ]
     pickle_path = os.path.join(INTERIM_DATA_DIR, f"all_scans_joined_cached.pkl")
 
