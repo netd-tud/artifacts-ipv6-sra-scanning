@@ -11,16 +11,16 @@ output-filter "success=1"
 ipv6-target-file "-"
 
 # Values that probably won't change on the same machine but need to be updated when initializing a new scan machine
-blocklist-file /home/mkoch/zmap/blocklist.conf
-gateway-mac 78:4f:9b:ab:78:29
+blocklist-file ./go_ipv6_address_generator/config/blocklist.conf
+gateway-mac [YOUR GATEWAY MAC]
 # interface for sending
-interface "bcixtransit"
+interface "[interface for sending]"
 # interface for receiving packets (needed for asynchronous routing)
-rcv-iface "scanif"
-ipv6-source-ip "2001:67c:254:b0b0::abba"
+rcv-iface "[interface for receiving]"
+ipv6-source-ip "[ipv6 source ip address]"
 
 # Static values that most likely won't change anyway
-probe-ttl 60
+probe-ttl 64
 # static seed value for random address space traversal (not really needed for IPv6)
 seed 13371337
 # output module

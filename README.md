@@ -19,19 +19,20 @@ Clone this repository, then:
 1. Make sure python 3.10 is installed.
 2. Make a virtual environment: `make python_env`
 3. Activate python env: `source .venv/bin/activate`
-4. Download required data from [https://doi.org/10.5281/zenodo.17210254](https://doi.org/10.5281/zenodo.17210254)
-5. Move the `measurement-raw-data.tar` file into `./data/raw/` and extract it.
-6. To get a clean starting environment run `make clean` first.
+4. Remove the current `data/` directory with `rm -rf data/`
+5. Download required data from [https://doi.org/10.25532/OPARA-979](https://doi.org/10.25532/OPARA-979)
+6. Move the `data.tar` file into the root directory (`artifacts-ipv6-sra-scanning/`) and extract it.
+7. To get a clean starting environment run `make clean` first.
 
 Now you can reproduce the paper plots with: 
 
-7. `make plots`
+8. `make plots`
 
 The plots are then stored under `reports/figures/`
 
 To reproduce the paper tables you can simply run:
 
-8. `make nbconvert-clean-execute`
+9. `make tables`
 
 ## Cleaning the environment
 - `make clean` to remove figures and the table.html file.
@@ -39,4 +40,20 @@ To reproduce the paper tables you can simply run:
 - It is necessary to run these commands when creating new dataframes from the raw files (see below)
 
 ## Scanning the IPv6 address space
-- TBD
+### Requirements
+- IPv6 connectivity with at least one global IPv6 address
+- Golang 1.22.2
+- ZMapv6 dependencies: https://github.com/tumi8/zmap/blob/master/INSTALL.md
+`sudo apt-get install build-essential cmake libgmp3-dev gengetopt libpcap-dev flex byacc libjson-c-dev pkg-config libunistring-dev libjudy-dev`
+
+### Generating IPv6 target addresses
+Follow the instructions in the [README](./tools/go_ipv6_address_generator/README.md) file.
+We provide a small template config and a few input prefixes, to check if the address generator is working, simply navigate to `tools/go_ipv6_address_generator` and run:
+
+`go run address-generator-ipv6.go --config-file ./config/config-go-tool`
+
+This generates SRA addresses for /64 subnets. The current config generates 10 per prefix and a maximum of 100 addresses in total.
+
+### Scanning for Subnet-Router anycast addresses
+Follow the instructions in the [HOWTOSCAN](./tools/HOWTOSCAN.md) file.
+

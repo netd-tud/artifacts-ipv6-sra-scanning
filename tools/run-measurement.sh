@@ -26,7 +26,7 @@ logger -t measurement-run-script -p user.info "Logfile set to: $logfile"
 # start measurement
 logger -t measurement-run-script -p user.info "Starting measurement at $(date)"
 
-./tools/sra_generation_cyclic-v4 --config-file "${CONFIGS}/config-go-tool" | \
+go run ./tools/go_ipv6_address_generator/address-generator-ipv6.go --config-file "${CONFIGS}/config-go-tool" | \
 ./tools/zmap --config "${CONFIGS}/config-zmap" -o "$logfile"
 
 

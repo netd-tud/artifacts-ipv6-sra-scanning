@@ -1,5 +1,5 @@
 {
-  "PrefixFile": "./input/bgp-20251021",
+  "PrefixFile": "./input/example-prefixes",
   "TargetSubnetSize": 48,
   "Mode": "n",
   "Seed": 1337371717283484832,
