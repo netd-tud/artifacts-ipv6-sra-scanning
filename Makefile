@@ -49,11 +49,11 @@ format:
 python_env:
 	$(PYTHON_INTERPRETER) -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
 
-notebooks = notebooks/tables.ipynb
-notebooks_html = notebooks/tables.html
+notebooks=$(shell ls notebooks/*.ipynb)
+notebooks_html:=$(subst .ipynb,.html,$(notebooks))
 
 %.html: %.ipynb
-	jupyter nbconvert $(NBCONVERT_PARAMS) --to html $<
+	jupyter nbconvert $(NBCONVERT_PARAMS) --to html $< 
 
 tables: NBCONVERT_PARAMS=--execute
 tables: $(notebooks_html)
