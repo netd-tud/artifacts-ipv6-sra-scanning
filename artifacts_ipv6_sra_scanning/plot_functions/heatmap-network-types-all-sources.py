@@ -5,7 +5,7 @@ import matplotlib.colors as mpc
 import glob
 
 def map_iso3_to_continent(cc):
-    if cc=='XK' or cc=='SXM':
+    if cc=='XK' or cc=='SXM' or cc=='VAT':
         # kosovo is EU state, count saint marten as EU state (netherland territory)
         return 'EU'
     if cc=='UMI':
@@ -18,7 +18,9 @@ def map_iso3_to_continent(cc):
     return pycc.country_alpha2_to_continent_code(alpha2) 
 
 def render(out_file):
+    plt.rc("font", size=10)
     files = glob.glob(f'{PROCESSED_DATA_DIR}/sources/*.csv')
+    files.sort()
     labels = ['SRA','Hitlist','ITDK','RIPE Atlas','IXP']
 
     ipinfo_asn = pl.read_parquet(f'{EXTERNAL_DATA_DIR}/ipinfo_asn.parquet')
@@ -32,12 +34,10 @@ def render(out_file):
         router_asn = tmp.select(['Geo','AS-Number','ip-addr']).unique()
         router_asn = router_asn.join(ipinfo_asn.select(['asn','type']).unique(),how='left',left_on='AS-Number',right_on='asn')
         router_asn = router_asn.group_by(['Geo','type']).agg(pl.len().alias('count')).sort('count',descending=True)
-        router_asn = router_asn.with_columns(
-            pl.col("Geo").map_elements(map_iso3_to_continent, return_dtype=pl.Utf8).alias("Continent")
-        ).filter((pl.col('Geo').is_not_null()) & (pl.col('Geo')!='ATA'))
+        router_asn = router_asn.filter((pl.col('Geo').is_not_null()) & (pl.col('Geo')!='ATA'))#.with_columns(pl.col("Geo").map_elements(map_iso3_to_continent, return_dtype=pl.Utf8).alias("Continent"))
         
         table = router_asn.group_by('type').agg(pl.col('count').sum().alias(label))
-        order_types = ["ISP", "Hosting", "Business", "Education", "Government", "Unknown"]
+        order_types = ["ISP", "Hosting", "Business", "Education", "Government", "Unknown","Inactive"]
         table = table.fill_null('Unknown').with_columns(
             pl.when(pl.col("type") == "isp")
             .then(pl.lit("ISP"))  # special case

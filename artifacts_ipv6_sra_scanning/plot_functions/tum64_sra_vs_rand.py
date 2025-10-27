@@ -37,7 +37,7 @@ def load_and_join(files):
             
     return df
 
-def render(out_file):
+def run(out_file):
     tum_sra_files = glob.glob(f'{PROCESSED_DATA_DIR}/sra-vs-rand/*sra*_p0')
     tum_rand_files = glob.glob(f'{PROCESSED_DATA_DIR}/sra-vs-rand/*rand*_p0')
 

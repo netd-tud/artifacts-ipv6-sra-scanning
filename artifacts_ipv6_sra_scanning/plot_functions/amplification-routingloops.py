@@ -8,7 +8,7 @@ def render(out_file):
     loop_df = df_scan01.filter((pl.col('classification')=='timxceed')).sort('numsubnets',descending=True).to_pandas()
     
     plt.rc("font", size=12)
-    fig,ax = vh.fig_ax(figsize=(8*0.7,2*1.7))
+    fig,ax = vh.fig_ax(figsize=(8*0.7,2*0.7))
     pd_df.plot(y='maxampl',ax=ax,legend=False)
     ax.set_yscale('log')
     ax.set_ylim(1,10**6)

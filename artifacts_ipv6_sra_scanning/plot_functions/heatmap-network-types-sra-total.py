@@ -17,17 +17,18 @@ def map_iso3_to_continent(cc):
     return pycc.country_alpha2_to_continent_code(alpha2) 
 
 def render(out_file):
+    plt.rc("font", size=10)
     ipinfo_asn = pl.read_parquet(f'{EXTERNAL_DATA_DIR}/ipinfo_asn.parquet')
     ipinfo_asn = ipinfo_asn.with_columns(pl.col('asn').str.replace('AS','').cast(pl.Float64))
 
-    router_ips = pl.read_csv(f'{PROCESSED_DATA_DIR}/sources/router-ips.csv')
+    router_ips = pl.read_csv(f'{PROCESSED_DATA_DIR}/sources/01-router-ips.csv')
     router_ips = router_ips.filter(pl.col('ip-addr')!='saddr')
     router_asn = router_ips.select(['Geo','AS-Number','ip-addr']).unique()
     router_asn = router_asn.join(ipinfo_asn.select(['asn','type']).unique(),how='left',left_on='AS-Number',right_on='asn')
     router_asn = router_asn.group_by(['Geo','type']).agg(pl.len().alias('count')).sort('count',descending=True)
-    router_asn = router_asn.with_columns(
+    router_asn = router_asn.filter((pl.col('Geo').is_not_null()) & (pl.col('Geo')!='ATA')).with_columns(
         pl.col("Geo").map_elements(map_iso3_to_continent, return_dtype=pl.Utf8).alias("Continent")
-    ).filter((pl.col('Geo').is_not_null()) & (pl.col('Geo')!='ATA'))
+    )
     #filter antarctica values (ATA) --> only 5, not of interest and not very trustworthy imo
     router_asn = router_asn.with_columns(pl.col('type').fill_null('Unknown'))
     #remove inactive network type as their frequency is negligible with <0.001%
