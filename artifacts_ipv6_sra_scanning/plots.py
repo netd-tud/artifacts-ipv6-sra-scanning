@@ -30,9 +30,9 @@ def main(
         module = importlib.import_module(f"{package.__name__}.{module_name}")
         
         # run each module if it has a run() function
-        if hasattr(module, "run"):
+        if hasattr(module, "render"):
             logger.info(f"Rendering {module_name}")
-            module.run(module_name)
+            module.render(module_name)
     logger.success("Plot generation complete.")
 
 

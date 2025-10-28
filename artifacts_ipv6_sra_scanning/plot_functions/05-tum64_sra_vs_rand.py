@@ -37,9 +37,9 @@ def load_and_join(files):
             
     return df
 
-def run(out_file):
-    tum_sra_files = glob.glob(f'{PROCESSED_DATA_DIR}/sra-vs-rand/*sra*_p0')
-    tum_rand_files = glob.glob(f'{PROCESSED_DATA_DIR}/sra-vs-rand/*rand*_p0')
+def render(out_file):
+    tum_sra_files = glob.glob(f'{PROCESSED_DATA_DIR}/tuminput_sra_checks/*sra*_p0')
+    tum_rand_files = glob.glob(f'{PROCESSED_DATA_DIR}/tuminput_sra_checks/*rand*_p0')
 
     tum_sra_df = load_and_join(tum_sra_files)
     tum_rand_df = load_and_join(tum_rand_files)
@@ -96,7 +96,7 @@ def run(out_file):
     )
     ax.text(4.1,7*10**7,'+ ≈10%',fontsize=11)
 
-    plt.savefig(f'{FIGURE_DIR}/{out_file}.pdf',bbox_inches='tight')
-    plt.savefig(f'{FIGURE_DIR}/{out_file}.png',dpi=200,bbox_inches='tight')
+    plt.savefig(f'{FIGURES_DIR}/{out_file}.pdf',bbox_inches='tight')
+    plt.savefig(f'{FIGURES_DIR}/{out_file}.png',dpi=200,bbox_inches='tight')
 
     plt.close()

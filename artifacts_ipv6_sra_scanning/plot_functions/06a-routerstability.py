@@ -98,7 +98,7 @@ def render(out_file):
     ax2.plot((-d, +d), (1 - d, 1 + d), **kwargs)  # bottom-left diagonal
     ax2.plot((1 - d, 1 + d), (1 - d, 1 + d), **kwargs)  # bottom-right diagonal
 
-    plt.savefig(f'{FIGURE_DIR}/{out_file}.pdf',bbox_inches='tight')
-    plt.savefig(f'{FIGURE_DIR}/{out_file}.png',dpi=200,bbox_inches='tight')
+    plt.savefig(f'{FIGURES_DIR}/{out_file}.pdf',bbox_inches='tight')
+    plt.savefig(f'{FIGURES_DIR}/{out_file}.png',dpi=200,bbox_inches='tight')
 
     plt.close()
