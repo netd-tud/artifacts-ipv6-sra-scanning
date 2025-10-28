@@ -33,6 +33,8 @@ The plots are then stored under `reports/figures/`
 To reproduce the paper tables you can simply run:
 
 9. `make tables`
+    
+This executes the jupyter notebooks and stores the html version under `notebooks/*.html`, showing the tables.
 
 ## Cleaning the environment
 - `make clean` to remove figures and the table.html file.
