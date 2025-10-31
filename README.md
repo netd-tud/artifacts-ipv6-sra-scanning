@@ -21,7 +21,7 @@ Clone this repository with the `--recursive` flag to also include the submodules
 2. Make a virtual environment: `make python_env`
 3. Activate python env: `source .venv/bin/activate`
 4. Remove the current `data/` directory with `rm -rf data/`
-5. Download required data from [https://doi.org/10.25532/OPARA-979](https://doi.org/10.25532/OPARA-979)
+5. Download required data from [https://doi.org/10.25532/OPARA-979](https://doi.org/10.25532/OPARA-979) (If the DOI link is broken, use this one instead: [https://opara.zih.tu-dresden.de/handle/123456789/1761](https://opara.zih.tu-dresden.de/handle/123456789/1761))
 6. Move the `data.tar` file into the root directory (`artifacts-ipv6-sra-scanning/`) and extract it.
 7. To get a clean starting environment run `make clean` first.
 
