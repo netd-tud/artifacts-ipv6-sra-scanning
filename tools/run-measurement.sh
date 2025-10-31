@@ -26,8 +26,8 @@ logger -t measurement-run-script -p user.info "Logfile set to: $logfile"
 # start measurement
 logger -t measurement-run-script -p user.info "Starting measurement at $(date)"
 
-go run ./tools/go_ipv6_address_generator/address-generator-ipv6.go --config-file "${CONFIGS}/config-go-tool" | \
-./tools/zmap --config "${CONFIGS}/config-zmap" -o "$logfile"
+go run ./go_ipv6_address_generator/address-generator-ipv6.go --config-file "${CONFIGS}/config-go-tool" | \
+./zmap/src/zmap --config "${CONFIGS}/config-zmap" -o "$logfile"
 
 
 if [ $? -eq 0 ]; then
@@ -40,4 +40,4 @@ logger -t measurement-run-script -p user.info "Compressing logfile: $logfile"
 zstd --rm -T0 $logfile
 logger -t measurement-run-script -p user.info "Compressing done."
 # extract brief version of scan results and log them
-./tools/log-scan-infos.sh ./monitoring/scan-status.csv
+./log-scan-infos.sh ./monitoring/scan-status.csv

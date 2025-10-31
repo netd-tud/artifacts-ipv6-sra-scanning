@@ -15,7 +15,8 @@ https://doi.org/10.1145/3768997
 
 Requirements to reproduce plots and tables: 256 GB of RAM, 256 GB free disk space
 
-Clone this repository, then: 
+Clone this repository with the `--recursive` flag to also include the submodules used for scanning: 
+`git clone https://github.com/netd-tud/artifacts-ipv6-sra-scanning.git --recursive`, then: 
 1. Make sure python 3.10 is installed.
 2. Make a virtual environment: `make python_env`
 3. Activate python env: `source .venv/bin/activate`
@@ -47,6 +48,11 @@ This executes the jupyter notebooks and stores the html version under `notebooks
 - Golang 1.22.2
 - ZMapv6 dependencies: https://github.com/tumi8/zmap/blob/master/INSTALL.md
 `sudo apt-get install build-essential cmake libgmp3-dev gengetopt libpcap-dev flex byacc libjson-c-dev pkg-config libunistring-dev libjudy-dev`
+
+### Setup
+- Make sure the submodules (`zmap` and `go_ipv6_address_generator`) under `tools/` have been cloned properly
+- If not run `git submodule update --init --recursive`
+- If you are using the archived version from Zenodo, replace the directories `zmap` and `go_ipv6_address_generator` under `tools/` with the corresponding ZIP archives from Zenodo
 
 ### Generating IPv6 target addresses
 Follow the instructions in the [README](./tools/go_ipv6_address_generator/README.md) file.
