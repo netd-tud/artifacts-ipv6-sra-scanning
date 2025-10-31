@@ -4,6 +4,7 @@
   "Mode": "n",
   "Seed": 1337371717283484832,
   "PerPrefixLimit": -1,
-  "TotalLimit": 5800000000 
+  "TotalLimit": 5800000000,
+  "BlocklistFile": "./configs/blocklist.conf" 
 }
 

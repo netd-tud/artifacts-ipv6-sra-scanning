@@ -46,6 +46,7 @@ This executes the jupyter notebooks and stores the html version under `notebooks
 ### Requirements
 - IPv6 connectivity with at least one global IPv6 address
 - Golang 1.22.2
+- Install `jq` with `sudo apt install jq`
 - ZMapv6 dependencies: https://github.com/tumi8/zmap/blob/master/INSTALL.md
 `sudo apt-get install build-essential cmake libgmp3-dev gengetopt libpcap-dev flex byacc libjson-c-dev pkg-config libunistring-dev libjudy-dev`
 
