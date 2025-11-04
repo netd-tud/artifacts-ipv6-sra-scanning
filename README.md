@@ -18,7 +18,7 @@ Requirements to reproduce plots and tables: 256 GB of RAM, 256 GB free disk spac
 Clone this repository with the `--recursive` flag to also include the submodules used for scanning: 
 `git clone https://github.com/netd-tud/artifacts-ipv6-sra-scanning.git --recursive`, then: 
 1. Make sure python 3.10 (or newer) is installed.
-2. Install the virtual environment package with `apt install python3-venv`.
+2. Install the virtual environment and dev package with `apt install python3-venv python3-dev`.
 3. Install `make` with `apt install make`.
 4. Make a virtual environment: `make python_env`
 5. Activate python env: `source .venv/bin/activate`
