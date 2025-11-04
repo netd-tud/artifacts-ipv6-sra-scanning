@@ -13,17 +13,19 @@ https://doi.org/10.1145/3768997
 
 # Reproduction of paper artifacts
 
-Requirements to reproduce plots and tables: 256 GB of RAM, 256 GB free disk space
+Requirements to reproduce plots and tables: 256 GB of RAM, 256 GB free disk space, recent Ubuntu (e.g., 24.04)
 
 Clone this repository with the `--recursive` flag to also include the submodules used for scanning: 
 `git clone https://github.com/netd-tud/artifacts-ipv6-sra-scanning.git --recursive`, then: 
-1. Make sure python 3.10 is installed.
-2. Make a virtual environment: `make python_env`
-3. Activate python env: `source .venv/bin/activate`
-4. Remove the current `data/` directory with `rm -rf data/`
-5. Download required data from [https://doi.org/10.25532/OPARA-979](https://doi.org/10.25532/OPARA-979) (If the DOI link is broken, use this one instead: [https://opara.zih.tu-dresden.de/handle/123456789/1761](https://opara.zih.tu-dresden.de/handle/123456789/1761))
-6. Move the `data.tar` file into the root directory (`artifacts-ipv6-sra-scanning/`) and extract it.
-7. To get a clean starting environment run `make clean` first.
+1. Make sure python 3.10 (or newer) is installed.
+2. Install the virtual environment package with `apt install python3-venv`.
+3. Install `make` with `apt install make`.
+4. Make a virtual environment: `make python_env`
+5. Activate python env: `source .venv/bin/activate`
+6. Remove the current `data/` directory with `rm -rf data/`
+7. Download required data from [https://doi.org/10.25532/OPARA-979](https://doi.org/10.25532/OPARA-979) (If the DOI link is broken, use this one instead: [https://opara.zih.tu-dresden.de/handle/123456789/1761](https://opara.zih.tu-dresden.de/handle/123456789/1761))
+8. Move the `data.tar` file into the root directory (`artifacts-ipv6-sra-scanning/`) and extract it.
+9. To get a clean starting environment run `make clean` first.
 
 Now you can reproduce the paper plots with: 
 
