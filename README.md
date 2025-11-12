@@ -5,19 +5,19 @@ Artifacts: Scanning the IPv6 Internet Using Subnet-Router Anycast Probing
 
 This repository contains the artifacts for the following paper:
 ```
-Scanning the IPv6 Internet Using Subnet-Router Anycast Probing
 Maynard Koch, Raphael Hiesgen, Marcin Nawrocki, Thomas C. Schmidt, and Matthias Wählisch
+Scanning the IPv6 Internet Using Subnet-Router Anycast Probing
 Proc. ACM Netw., Vol. 3, No. CoNEXT4, Article 50. Publication date: December 2025.
 https://doi.org/10.1145/3768997
 ```
 
 # Reproduction of paper artifacts
 
-Requirements to reproduce plots and tables: 128 GB of RAM, ~150 GB free disk space, recent Ubuntu (e.g., 24.04)
+Requirements to reproduce plots and tables: 128 GB of RAM, ~150 GB free disk space, recent Linux (e.g., Ubuntu 24.04)
 
 Clone this repository with the `--recursive` flag to also include the submodules used for scanning: 
 `git clone https://github.com/netd-tud/artifacts-ipv6-sra-scanning.git --recursive`, then: 
-1. Make sure python 3.10 (or newer) is installed.
+1. Make sure python 3.12 (or newer) is installed.
 2. Install the virtual environment and dev package with `apt install python3-venv python3-dev`.
 3. Install `make` with `apt install make`.
 4. Make a virtual environment: `make python_env`
