@@ -13,7 +13,7 @@ https://doi.org/10.1145/3768997
 
 # Reproduction of paper artifacts
 
-Requirements to reproduce plots and tables: 128 GB of RAM, ~150 GB free disk space, recent Linux (e.g., Ubuntu 24.04)
+Requirements to reproduce plots and tables: 128 GB of RAM, ~150 GB free disk space, recent Linux (e.g., Ubuntu 24.04), Python 3.12
 
 Clone this repository with the `--recursive` flag to also include the submodules used for scanning: 
 `git clone https://github.com/netd-tud/artifacts-ipv6-sra-scanning.git --recursive`, then: 
